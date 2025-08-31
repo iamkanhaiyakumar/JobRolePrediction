@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
 from backend.database import SessionLocal, User
@@ -36,22 +36,37 @@ def get_db():
 def signup(user: SignupModel, db: Session = Depends(get_db)):
     existing_user = db.query(User).filter(User.email == user.email).first()
     if existing_user:
-        return {"message": "User already exists"}
+        raise HTTPException(status_code=400, detail="User already exists")
+    
     hashed_pw = bcrypt.hashpw(user.password.encode('utf-8'), bcrypt.gensalt())
-    new_user = User(name=user.name, email=user.email, password=hashed_pw.decode('utf-8'))
+    new_user = User(
+        name=user.name,
+        email=user.email,
+        password=hashed_pw.decode('utf-8')
+    )
     db.add(new_user)
     db.commit()
     db.refresh(new_user)
+
     return {"message": "User registered successfully"}
 
 @router.post("/login")
 def login(user: LoginModel, db: Session = Depends(get_db)):
     db_user = db.query(User).filter(User.email == user.email).first()
     if not db_user:
-        return {"message": "User not found"}
+        raise HTTPException(status_code=404, detail="User not found")
+    
     if not bcrypt.checkpw(user.password.encode('utf-8'), db_user.password.encode('utf-8')):
-        return {"message": "Incorrect password"}
+        raise HTTPException(status_code=401, detail="Incorrect password")
+    
     token_data = {"user_id": db_user.id, "role": db_user.role}
     token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
-    token = create_access_token(data=token_data, secret_key=SECRET_KEY, algorithm=ALGORITHM, expires_delta=token_expires)
+    
+    token = create_access_token(
+        data=token_data,
+        secret_key=SECRET_KEY,
+        algorithm=ALGORITHM,
+        expires_delta=token_expires
+    )
+
     return {"message": "Login successful", "token": token}
