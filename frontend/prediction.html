@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Predicted Jobs</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="container">
+    <h2>Your Predicted Job Roles</h2>
+    <ul id="predictionsList"></ul>
+    <a href="profile.html">Back to Profile</a>
+  </div>
+
+  <script>
+    const predictions = JSON.parse(localStorage.getItem('predictions') || '[]');
+    const ul = document.getElementById('predictionsList');
+
+    if(predictions.length === 0){
+      ul.innerHTML = "<li>No predictions found. Please submit your profile first.</li>";
+    } else {
+      predictions.forEach(pred => {
+        const li = document.createElement('li');
+        li.textContent = `${pred.job} (Confidence: ${pred.confidence}%)`;
+        ul.appendChild(li);
+      });
+    }
+  </script>
+</body>
+</html>

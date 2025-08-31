@@ -1,0 +1,63 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile - Job Role Prediction</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Education Details</h2>
+        <form id="educationForm">
+            <input type="text" id="degree" placeholder="Degree (e.g. B.Tech)" required>
+            <input type="text" id="specialization" placeholder="Specialization (e.g. CS)" required>
+            <input type="number" step="0.01" id="cgpa" placeholder="CGPA" required>
+            <input type="text" id="certifications" placeholder="Certifications (comma separated)">
+            <button type="submit">Predict Jobs</button>
+        </form>
+        <div id="predictionResult"></div>
+    </div>
+
+    <script src="js/main.js"></script>
+</body>
+</html> -->
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Profile - Job Prediction</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="container">
+    <h2>Enter Your Education Details</h2>
+    <form id="educationForm">
+      <label>Degree</label>
+      <input type="text" id="Degree" placeholder="e.g. B.Tech" required>
+      
+      <label>Major</label>
+      <input type="text" id="Major" placeholder="e.g. Computer Science" required>
+      
+      <label>CGPA</label>
+      <input type="number" step="0.01" id="CGPA" placeholder="e.g. 8.5" required>
+      
+      <label>Experience (years)</label>
+      <input type="number" step="0.1" id="Experience" placeholder="e.g. 2" required>
+      
+      <label>Industry Preference</label>
+      <input type="text" id="Industry_Preference" placeholder="e.g. IT, Finance" required>
+      
+      <button type="submit">Predict Job Roles</button>
+    </form>
+    <div id="predictionResult"></div>
+  </div>
+  
+  <script src="js/main.js"></script>
+</body>
+</html>
